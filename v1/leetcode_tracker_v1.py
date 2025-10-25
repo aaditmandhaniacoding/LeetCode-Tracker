@@ -8,3 +8,17 @@ hard = int(input("How many hard problems did you solve today? "))
 today = datetime.date.today()
 with open("progress.txt","a") as f:
     f.write(f"{today},{easy},{medium},{hard}\n")
+
+
+dates = []
+easy_list = []
+medium_list = []
+hard_list = []
+
+with open("progress.txt","r") as f:
+    for line in f:
+        d,e,m,h = line.strip().split(",")
+        dates.append(d)
+        easy_list.append(int(e))
+        medium_list.append(int(m))
+        hard_list.append(int(h))
