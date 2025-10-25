@@ -2,6 +2,27 @@ import matplotlib.pyplot as plt
 import datetime
 import requests
 
+
+USERNAME = "YourUsername"
+
+query = {
+    "query":f"""
+    query userProfile {{
+        allQuestionsCount {{
+            difficulty
+            count
+        }}
+        matchedUser(username:"{USERNAME}"){{
+            submitStats{{
+                acSubmissionNum {{
+                    difficulty
+                    count
+                }}
+            }}
+        }}
+    }}
+    """
+}
 easy = 1
 medium = 2
 hard = 3
