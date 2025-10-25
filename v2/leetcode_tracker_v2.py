@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 import datetime
+import requests
 
 easy = 1
 medium = 2
