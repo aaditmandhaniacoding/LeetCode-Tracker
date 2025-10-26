@@ -29,14 +29,16 @@ data = response.json()
 
 stats = data["data"]["matchedUser"]["submitStats"]["acSubmissionNum"]
 
-easy = stats[1]["count"]
-medium = stats[2]["count"]
-hard = stats[3]["count"]
+total_easy = stats[1]["count"]
+total_medium = stats[2]["count"]
+total_hard = stats[3]["count"]
 
-
+prev_easy = total_easy
+prev_medium = total_medium
+prev_hard = total_hard
 today = datetime.date.today()
 with open("progress.txt","a") as f:
-    f.write(f"{today},{easy},{medium},{hard}\n")
+    f.write(f"{today},{prev_easy},{prev_medium},{prev_hard}\n")
 
 
 dates = []
