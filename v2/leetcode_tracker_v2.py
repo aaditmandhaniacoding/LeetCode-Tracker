@@ -63,7 +63,7 @@ hard_list = []
 
 with open("progress.txt","r") as f:
     for line in f:
-        d,e,m,h = line.strip().split(",")
+        d,_,_,_,e,m,h = line.strip().split(",")
         dates.append(d)
         easy_list.append(int(e))
         medium_list.append(int(m))
