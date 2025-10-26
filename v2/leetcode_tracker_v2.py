@@ -46,9 +46,14 @@ else:
     prev_easy = total_easy
     prev_medium = total_medium
     prev_hard = total_hard
+
+daily_e = total_easy - prev_easy
+daily_m = total_medium - prev_medium
+daily_h = total_hard - prev_hard
+
 today = datetime.date.today()
 with open("progress.txt","a") as f:
-    f.write(f"{today},{prev_easy},{prev_medium},{prev_hard}\n")
+    f.write(f"{today},{prev_easy},{prev_medium},{prev_hard},{daily_e},{daily_m},{daily_h}\n")
 
 
 dates = []
