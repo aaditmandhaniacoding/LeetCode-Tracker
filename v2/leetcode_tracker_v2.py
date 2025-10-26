@@ -32,10 +32,20 @@ stats = data["data"]["matchedUser"]["submitStats"]["acSubmissionNum"]
 total_easy = stats[1]["count"]
 total_medium = stats[2]["count"]
 total_hard = stats[3]["count"]
-
-prev_easy = total_easy
-prev_medium = total_medium
-prev_hard = total_hard
+if os.path.exists("progress.txt"):
+    with open("progress.txt","r") as f:
+        lines = f.readlines()
+        if lines:
+            _,prev_easy,prev_medium,prev_hard,_,_,_ = lines[-1].strip().split(",")
+            prev_easy,prev_medium,prev_hard = int(prev_easy),int(prev_medium),int(prev_hard)
+        else:
+            prev_easy = total_easy
+            prev_medium = total_medium
+            prev_hard = total_hard
+else:
+    prev_easy = total_easy
+    prev_medium = total_medium
+    prev_hard = total_hard
 today = datetime.date.today()
 with open("progress.txt","a") as f:
     f.write(f"{today},{prev_easy},{prev_medium},{prev_hard}\n")
