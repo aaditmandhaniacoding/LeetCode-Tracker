@@ -23,9 +23,16 @@ query = {
     }}
     """
 }
-easy = 1
-medium = 2
-hard = 3
+
+response = requests.post("https://leetcode.com/graphql",json=query)
+data = response.json()
+
+stats = data["data"]["matchedUser"]["submitStats"]["acSubmissionNum"]
+
+easy = stats[1]["count"]
+medium = stats[2]["count"]
+hard = stats[3]["count"]
+
 
 today = datetime.date.today()
 with open("progress.txt","a") as f:
