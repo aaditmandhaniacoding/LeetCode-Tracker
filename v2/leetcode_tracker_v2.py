@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 import datetime
 import requests
-
+import os
 
 USERNAME = "YourUsername"
 
