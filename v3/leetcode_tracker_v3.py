@@ -56,6 +56,14 @@ c.execute("""CREATE TABLE IF NOT EXISTS progress(
           )""")
 
 
+c.execute("SELECT total_easy,total_medium,total_hard from progress ORDER BY date DESC LIMIT 1")
+lastrow = c.fetchone()
+if lastrow:
+    prev_easy,prev_medium,prev_hard = lastrow
+else:
+    prev_easy = total_easy
+    prev_medium = total_medium
+    prev_hard = total_hard
 
 
 daily_e = total_easy - prev_easy
@@ -63,11 +71,20 @@ daily_m = total_medium - prev_medium
 daily_h = total_hard - prev_hard
 
 
-today = datetime.date.today()
+today = str(datetime.date.today())
+
+
+c.execute("""INSERT OR REPLACE INTO progress
+          (date,total_easy,total_medium,total_hard,daily_easy,daily_medium,daily_hard) VALUES (?,?,?,?,?,?,?)
+          """,(today,total_easy,total_medium,total_hard,daily_e,daily_m,daily_h))
+conn.commit()
 
 
 
 
+c.execute("SELECT date,daily_easy,daily_medium,daily_hard FROM progress ORDER BY date")
+rows = c.fetchall()
+conn.close()
 
 
 
