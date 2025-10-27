@@ -40,8 +40,20 @@ total_medium = stats[2]["count"]
 total_hard = stats[3]["count"]
 
 
+db_file = "progress.db"
+conn = sqlite3.connect(db_file)
+c = conn.cursor()
 
 
+c.execute("""CREATE TABLE IF NOT EXISTS progress(
+            date TEXT PRIMARY KEY,
+            total_easy INTEGER,
+            total_medium INTEGER,
+            total_hard INTEGER,
+            daily_easy INTEGER,
+            daily_medium INTEGER,
+            daily_hard INTEGER
+          )""")
 
 
 
