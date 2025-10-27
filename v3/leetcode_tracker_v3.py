@@ -1,0 +1,95 @@
+import matplotlib.pyplot as plt
+import datetime
+import requests
+import os
+import sqlite3
+
+
+USERNAME = "YourUsername"
+
+
+query = {
+    "query":f"""
+    query userProfile {{
+        allQuestionsCount {{
+            difficulty
+            count
+        }}
+        matchedUser(username:"{USERNAME}"){{
+            submitStats{{
+                acSubmissionNum {{
+                    difficulty
+                    count
+                }}
+            }}
+        }}
+    }}
+    """
+}
+
+
+response = requests.post("https://leetcode.com/graphql",json=query)
+data = response.json()
+
+
+stats = data["data"]["matchedUser"]["submitStats"]["acSubmissionNum"]
+
+
+total_easy = stats[1]["count"]
+total_medium = stats[2]["count"]
+total_hard = stats[3]["count"]
+if os.path.exists("progress.txt"):
+    with open("progress.txt","r") as f:
+        lines = f.readlines()
+        if lines:
+            _,prev_easy,prev_medium,prev_hard,_,_,_ = lines[-1].strip().split(",")
+            prev_easy,prev_medium,prev_hard = int(prev_easy),int(prev_medium),int(prev_hard)
+        else:
+            prev_easy = total_easy
+            prev_medium = total_medium
+            prev_hard = total_hard
+else:
+    prev_easy = total_easy
+    prev_medium = total_medium
+    prev_hard = total_hard
+
+
+daily_e = total_easy - prev_easy
+daily_m = total_medium - prev_medium
+daily_h = total_hard - prev_hard
+
+
+today = datetime.date.today()
+with open("progress.txt","a") as f:
+    f.write(f"{today},{total_easy},{total_medium},{total_hard},{daily_e},{daily_m},{daily_h}\n")
+
+
+
+
+dates = []
+easy_list = []
+medium_list = []
+hard_list = []
+
+
+with open("progress.txt","r") as f:
+    for line in f:
+        d,_,_,_,e,m,h = line.strip().split(",")
+        dates.append(d)
+        easy_list.append(int(e))
+        medium_list.append(int(m))
+        hard_list.append(int(h))
+
+
+plt.plot(dates,easy_list,label = "Easy",marker = "o")
+plt.plot(dates,medium_list,label = "Medium",marker = "o")
+plt.plot(dates,hard_list,label = "Hard",marker = "o")
+
+
+plt.xlabel("Date")
+plt.ylabel("Problem Solved")
+plt.title("Your LeetCode Progress")
+plt.legend()
+plt.xticks(rotation = 45)
+plt.tight_layout()
+plt.show()
