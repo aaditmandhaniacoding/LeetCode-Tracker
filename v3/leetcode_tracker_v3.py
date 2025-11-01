@@ -1,7 +1,6 @@
 import matplotlib.pyplot as plt
 import datetime
 import requests
-import os
 import sqlite3
 
 
